@@ -516,10 +516,6 @@
   const db = getFirestore(app);
   const auth = getAuth(app);
 
-  // Optional: also mirror each submission to a Google Sheet via Apps Script.
-  // Leave as-is to skip. (Set up per the earlier instructions if you want this too.)
-  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzrBvF74FMGVLDqWlYEEJFO-yT7eLgoVRmNHvEt3KD6MbFsAf2VLtwCcNI_BjiCg1xPmA/exec';
-
   // ---------------------------------------------------------------
 
   const steps = [0,1,2,3,4];
@@ -739,27 +735,16 @@
     };
   }
 
-  function sendToSheet(data){
-    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf('PASTE_YOUR') !== -1) return;
-    try{
-      const params = new URLSearchParams();
-      Object.keys(data).forEach(k=>{
-        const v = Array.isArray(data[k]) ? data[k].join('; ') : (data[k] || '');
-        params.append(k, v);
-      });
-      fetch(SHEET_WEBHOOK_URL, { method:'POST', mode:'no-cors', body: params });
-    }catch(e){ /* best-effort only */ }
-  }
-
   async function submitForm(){
     nextBtn.disabled = true;
     nextBtn.textContent = 'Submitting…';
     const data = collectData();
     try{
       await addDoc(collection(db, 'submissions'), { ...data, createdAt: serverTimestamp() });
-      sendToSheet(data);
       formWrap.style.display = 'none';
       stepSuccess.classList.add('visible');
+      nextBtn.disabled = false;
+      nextBtn.textContent = 'Next';
     }catch(e){
       console.error(e);
       showError('Something went wrong saving your response. Please check your connection and try again.');
