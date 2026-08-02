@@ -1,0 +1,8 @@
+{
+  "name": "blissful-yoga",
+  "private": true,
+  "description": "Static welcome-kit form. This manifest exists only so Vercel installs the serverless function's dependency; there is deliberately no build step.",
+  "dependencies": {
+    "nodemailer": "^6.9.14"
+  }
+}
