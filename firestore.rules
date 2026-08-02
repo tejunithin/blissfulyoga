@@ -11,7 +11,7 @@ service cloud.firestore {
     // read every client's health data. Add addresses to grant access.
     function isInstructor() {
       return request.auth != null
-          && request.auth.token.email in ['tejunithing@gmail.com'];
+          && request.auth.token.email in ['tejunithin@gmail.com'];
     }
 
     // Client welcome-kit submissions.
