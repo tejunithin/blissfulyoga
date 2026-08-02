@@ -176,26 +176,46 @@
   }
   .admin-overlay.show{display:flex;}
   .admin-panel{
-    background:var(--mist);border-radius:16px;max-width:720px;width:100%;padding:26px 24px 32px;
+    background:var(--mist);border-radius:16px;max-width:1100px;width:100%;padding:26px 24px 32px;
     box-shadow:0 20px 60px rgba(0,0,0,0.25);
   }
   .admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
   .admin-head h2{font-family:'Fraunces',serif;font-size:20px;color:var(--dusk);margin:0;}
   .close-x{border:none;background:none;font-size:20px;color:var(--ink-soft);cursor:pointer;padding:6px;}
   .gate input{margin-bottom:10px;}
-  .resp-card{
-    background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;font-size:13px;
+  /* ---------- Responses table ---------- */
+  .resp-scroll{
+    overflow-x:auto;-webkit-overflow-scrolling:touch;
+    border:1px solid var(--line);border-radius:12px;background:#fff;
   }
-  .resp-card .rname{font-family:'Fraunces',serif;font-size:16px;color:var(--dusk);margin-bottom:2px;}
-  .resp-card .rmeta{color:var(--ink-soft);font-size:12px;margin-bottom:10px;}
-  .resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;}
-  .resp-grid div span{color:var(--ink-soft);}
+  .resp-table{border-collapse:separate;border-spacing:0;width:max-content;min-width:100%;font-size:12.5px;}
+  .resp-table th,.resp-table td{
+    padding:9px 12px;text-align:left;white-space:nowrap;vertical-align:top;
+    border-bottom:1px solid var(--line);
+  }
+  .resp-table thead th{
+    position:sticky;top:0;z-index:2;background:var(--mist-alt);
+    font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--ink-soft);font-weight:600;
+  }
+  .resp-table tbody tr:last-child td{border-bottom:none;}
+  .resp-table tbody tr:hover td{background:#FAF8F4;}
+  /* Name column stays visible while scrolling sideways */
+  .resp-table .col-name{
+    position:sticky;left:0;z-index:1;background:#fff;
+    border-right:1px solid var(--line);
+    font-family:'Fraunces',serif;font-size:13.5px;color:var(--dusk);
+  }
+  .resp-table thead .col-name{z-index:3;background:var(--mist-alt);}
+  .resp-table tbody tr:hover .col-name{background:#FAF8F4;}
+  .resp-table .wrapcell{white-space:normal;min-width:150px;max-width:260px;}
+  .resp-table .muted{color:var(--ink-soft);}
+  .scroll-hint{font-size:11.5px;color:var(--ink-soft);margin:8px 2px 0;}
   .admin-toolbar{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px;flex-wrap:wrap;gap:10px;}
   .count-tag{font-size:12px;color:var(--ink-soft);}
 
   @media (max-width:480px){
     .two-col,.split{grid-template-columns:1fr;}
-    .resp-grid{grid-template-columns:1fr;}
     .admin-overlay{padding:16px 8px;}
     .admin-panel{padding:20px 16px 26px;border-radius:12px;}
     .instructor-card{justify-content:flex-start;}
@@ -811,37 +831,66 @@
         respList.innerHTML = '<p style="color:var(--ink-soft);font-size:13px;">No submissions yet.</p>';
         return;
       }
-      respList.innerHTML = items.map(renderCard).join('');
+      respList.innerHTML = renderTable(items);
     }catch(e){
       console.error(e);
       respList.innerHTML = '<p style="color:#8C3A22;font-size:13px;">Could not load responses. Try refreshing.</p>';
     }
   }
 
-  function renderCard(d){
-    const date = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleString() : '—';
-    return `<div class="resp-card">
-      <div class="rname">${escapeHtml(d.fullName||'(no name)')}</div>
-      <div class="rmeta">${date} · ${escapeHtml(d.email||'')} · ${escapeHtml(d.contactNumber||'')}</div>
-      <div class="resp-grid">
-        <div><span>DOB:</span> ${escapeHtml(d.dob||'—')}</div>
-        <div><span>Gender:</span> ${escapeHtml(d.gender||'—')}</div>
-        <div><span>Weight:</span> ${escapeHtml(d.weightValue||'—')} ${escapeHtml(d.weightUnit||'')}</div>
-        <div><span>Experience:</span> ${escapeHtml(d.experience||'—')}</div>
-        <div><span>Profession:</span> ${escapeHtml(d.profession||'—')}</div>
-        <div><span>Sleep:</span> ${escapeHtml(d.sleepHours||'—')} hrs</div>
-        <div><span>Water:</span> ${escapeHtml(d.waterIntake||'—')} L/day</div>
-        <div><span>Exercise:</span> ${escapeHtml(d.exerciseFrequency||'—')}</div>
-        <div><span>Blood pressure:</span> ${escapeHtml(d.bloodPressure||'—')}</div>
-        <div><span>Diabetes:</span> ${escapeHtml(d.diabetes||'—')}</div>
-        <div><span>Thyroid:</span> ${escapeHtml(d.thyroid||'—')}</div>
-        <div><span>Pregnancy:</span> ${escapeHtml(d.pregnancy||'—')}</div>
-        <div style="grid-column:1/-1;"><span>Surgery history:</span> ${escapeHtml(d.surgeryHistory||'—')}</div>
-        <div style="grid-column:1/-1;"><span>Medications:</span> ${escapeHtml(d.medications||'—')}</div>
-        <div style="grid-column:1/-1;"><span>Goals:</span> ${escapeHtml((d.goals||[]).join(', ')||'—')}</div>
-        <div style="grid-column:1/-1;"><span>Emergency contact:</span> ${escapeHtml(d.emergencyName||'—')} (${escapeHtml(d.emergencyRelationship||'—')}) · ${escapeHtml(d.emergencyPhone||'—')}</div>
-      </div>
-    </div>`;
+  const COLUMNS = [
+    'Name','Submitted','Contact','Email','DOB','Gender','Weight','Experience',
+    'Profession','Sleep','Water','Exercise','Blood pressure','Diabetes',
+    'Thyroid','Pregnancy','Surgery history','Medications','Goals','Emergency contact'
+  ];
+
+  // Blank values read as gaps in a table, so fall back to an em dash.
+  function cell(v){
+    const s = (v === undefined || v === null || v === '') ? '' : String(v);
+    return s ? escapeHtml(s) : '<span class="muted">—</span>';
+  }
+
+  function renderTable(items){
+    const head = COLUMNS.map((c,i)=>
+      `<th class="${i===0 ? 'col-name' : ''}">${escapeHtml(c)}</th>`
+    ).join('');
+    return `<div class="resp-scroll"><table class="resp-table">
+      <thead><tr>${head}</tr></thead>
+      <tbody>${items.map(renderRow).join('')}</tbody>
+    </table></div>
+    <p class="scroll-hint">Scroll sideways for more columns — the name column stays put.</p>`;
+  }
+
+  function renderRow(d){
+    const date = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleString() : '';
+    const weight = d.weightValue ? `${d.weightValue} ${d.weightUnit||''}`.trim() : '';
+    const emergency = [
+      d.emergencyName,
+      d.emergencyRelationship ? `(${d.emergencyRelationship})` : '',
+      d.emergencyPhone
+    ].filter(Boolean).join(' ');
+    return `<tr>
+      <td class="col-name">${cell(d.fullName || '(no name)')}</td>
+      <td>${cell(date)}</td>
+      <td>${cell(d.contactNumber)}</td>
+      <td>${cell(d.email)}</td>
+      <td>${cell(d.dob)}</td>
+      <td>${cell(d.gender)}</td>
+      <td>${cell(weight)}</td>
+      <td>${cell(d.experience)}</td>
+      <td>${cell(d.profession)}</td>
+      <td>${cell(d.sleepHours ? d.sleepHours + ' hrs' : '')}</td>
+      <td>${cell(d.waterIntake ? d.waterIntake + ' L/day' : '')}</td>
+      <td>${cell(d.exerciseFrequency)}</td>
+      <td>${cell(d.bloodPressure)}</td>
+      <td>${cell(d.diabetes)}</td>
+      <td>${cell(d.thyroid)}</td>
+      <td>${cell(d.pregnancy)}</td>
+      <td class="wrapcell">${cell(d.surgeryHistory)}</td>
+      <td class="wrapcell">${cell(d.medications)}</td>
+      <td class="wrapcell">${cell((d.goals||[]).join(', '))}</td>
+      <td class="wrapcell">${cell(emergency)}</td>
+    </tr>`;
   }
 
   function escapeHtml(s){
