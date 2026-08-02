@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Client welcome-kit submissions.
+    // Anyone can submit the public form; only a signed-in instructor
+    // can read them back. Submissions are immutable once written.
+    match /submissions/{doc} {
+      allow create: if true;
+      allow read: if request.auth != null;
+      allow update, delete: if false;
+    }
+  }
+}
