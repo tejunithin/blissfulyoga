@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Blissful Breath Yoga — Client Welcome Kit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --mist:#F6F4EF;
+    --mist-alt:#EEEAE1;
+    --ink:#2B2A3D;
+    --ink-soft:#6C6A7C;
+    --dusk:#332C52;
+    --coral:#E38868;
+    --coral-soft:#F3CBB6;
+    --sage:#7E9683;
+    --sage-soft:#DCE5DE;
+    --line:#E0DCD1;
+    --radius:14px;
+    --shadow:0 1px 2px rgba(43,42,61,0.06);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--mist);
+    color:var(--ink);
+    font-family:'Work Sans', sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  .app{
+    max-width:640px;margin:0 auto;position:relative;
+    padding:0 20px calc(80px + env(safe-area-inset-bottom)) 20px;
+    padding-top:env(safe-area-inset-top);
+  }
+
+  /* ---------- Top bar ---------- */
+  .topbar{
+    display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:8px;
+    padding:22px 0 14px;
+  }
+  .brand{display:flex;flex-direction:column;line-height:1.15;}
+  .brand .name{font-family:'Fraunces',serif;font-weight:600;font-size:19px;color:var(--dusk);}
+  .brand .tag{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);margin-top:2px;}
+  .admin-link{
+    border:none;background:none;color:var(--ink-soft);font-family:'Work Sans',sans-serif;
+    font-size:12px;letter-spacing:.03em;cursor:pointer;text-decoration:underline;text-underline-offset:3px;
+    padding:6px;white-space:nowrap;
+  }
+  .admin-link:hover{color:var(--dusk);}
+
+  /* ---------- Breathing circle (signature element) ---------- */
+  .breath-wrap{display:flex;flex-direction:column;align-items:center;margin:18px 0 8px;}
+  .breath-circle{
+    width:132px;height:132px;border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--coral-soft), var(--coral) 60%, var(--sage) 130%);
+    box-shadow:0 8px 30px rgba(51,44,82,0.18);
+    animation:breathe 8s ease-in-out infinite;
+  }
+  @keyframes breathe{
+    0%{transform:scale(0.86);}
+    50%{transform:scale(1.08);}
+    100%{transform:scale(0.86);}
+  }
+  .breath-caption{
+    margin-top:16px;font-family:'Fraunces',serif;font-size:15px;color:var(--dusk);
+    letter-spacing:.02em;min-height:20px;
+  }
+  @media (prefers-reduced-motion: reduce){ .breath-circle{animation:none;} }
+
+  /* ---------- Welcome ---------- */
+  .welcome h1{
+    font-family:'Fraunces',serif;font-weight:600;font-size:clamp(24px,7vw,30px);line-height:1.15;
+    color:var(--dusk);margin:22px 0 8px;text-align:center;
+  }
+  .welcome .lede{text-align:center;color:var(--ink-soft);font-size:15px;line-height:1.6;max-width:440px;margin:0 auto 24px;}
+  .instructor-card{
+    background:#fff;border:1px solid var(--line);border-radius:var(--radius);
+    padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+    box-shadow:var(--shadow);margin-bottom:28px;
+  }
+  .instructor-card .who{font-family:'Fraunces',serif;font-size:16px;color:var(--ink);}
+  .instructor-card .role{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .instructor-card .contact{font-size:13px;color:var(--dusk);text-align:right;}
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family:'Work Sans',sans-serif;font-weight:600;font-size:14.5px;
+    border-radius:999px;padding:13px 26px;border:none;cursor:pointer;min-height:46px;
+    transition:transform .12s ease, box-shadow .12s ease, background .15s ease;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--dusk);color:#fff;}
+  .btn-primary:hover{background:#292345;}
+  .btn-primary:disabled{background:#B9B4C8;cursor:not-allowed;}
+  .btn-ghost{background:transparent;color:var(--dusk);border:1.5px solid var(--line);}
+  .btn-ghost:hover{border-color:var(--dusk);}
+  .btn-block{width:100%;}
+  .btn-row{display:flex;gap:12px;margin-top:28px;}
+  .btn-row .btn{flex:1;}
+  .center{display:flex;justify-content:center;}
+
+  /* ---------- Progress dots ---------- */
+  .progress{display:flex;justify-content:center;gap:10px;margin:26px 0 6px;}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--line);transition:all .25s ease;}
+  .dot.active{background:var(--coral);transform:scale(1.3);}
+  .dot.done{background:var(--sage);}
+
+  /* ---------- Step card ---------- */
+  .step{display:none;}
+  .step.visible{display:block;animation:fadein .35s ease;}
+  @keyframes fadein{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .step-head{margin-bottom:18px;}
+  .eyebrow{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);font-weight:600;}
+  .step-title{font-family:'Fraunces',serif;font-size:clamp(19px,5.5vw,24px);color:var(--dusk);margin:4px 0 6px;}
+  .step-sub{font-size:13.5px;color:var(--ink-soft);line-height:1.5;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block;font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:6px;}
+  .field .req{color:var(--coral);}
+  .field .hint{font-size:12px;color:var(--ink-soft);margin-top:4px;}
+  .field input[type=text],
+  .field input[type=date],
+  .field input[type=tel],
+  .field input[type=email],
+  .field input[type=password],
+  .field input[type=number],
+  .field select,
+  .field textarea{
+    width:100%;padding:12px 13px;font-family:'Work Sans',sans-serif;font-size:16px;
+    border:1.5px solid var(--line);border-radius:10px;background:#fff;color:var(--ink);
+    outline:none;transition:border-color .15s ease;min-height:46px;
+  }
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--dusk);}
+  .field textarea{resize:vertical;min-height:64px;}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .split{display:grid;grid-template-columns:2fr 1fr;gap:10px;}
+
+  /* ---------- Segmented control (experience) ---------- */
+  .segmented{display:flex;border:1.5px solid var(--line);border-radius:10px;overflow:hidden;}
+  .segmented label{flex:1;text-align:center;padding:11px 6px;font-size:13.5px;cursor:pointer;color:var(--ink-soft);border-right:1.5px solid var(--line);}
+  .segmented label:last-child{border-right:none;}
+  .segmented input{display:none;}
+  .segmented label:has(input:checked){background:var(--dusk);color:#fff;}
+
+  /* ---------- Goal pills ---------- */
+  .pill-grid{display:flex;flex-wrap:wrap;gap:10px;}
+  .pill{
+    border:1.5px solid var(--line);border-radius:999px;padding:9px 16px;font-size:13.5px;
+    cursor:pointer;color:var(--ink);background:#fff;transition:all .15s ease;user-select:none;
+  }
+  .pill input{display:none;}
+  .pill.checked{background:var(--sage-soft);border-color:var(--sage);color:var(--dusk);font-weight:600;}
+
+  /* ---------- Success ---------- */
+  .success{text-align:center;padding:40px 0;}
+  .success .mark{
+    width:64px;height:64px;border-radius:50%;background:var(--sage-soft);color:var(--sage);
+    display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;
+  }
+  .success h2{font-family:'Fraunces',serif;font-size:24px;color:var(--dusk);margin:0 0 10px;}
+  .success p{color:var(--ink-soft);font-size:14.5px;max-width:380px;margin:0 auto 26px;line-height:1.6;}
+
+  .error-banner{
+    background:#FBE8E3;border:1px solid var(--coral);color:#8C3A22;font-size:13px;
+    padding:10px 14px;border-radius:10px;margin-bottom:16px;display:none;
+  }
+  .error-banner.show{display:block;}
+
+  /* ---------- Admin panel ---------- */
+  .admin-overlay{
+    position:fixed;inset:0;background:rgba(43,42,61,0.55);display:none;
+    align-items:flex-start;justify-content:center;padding:40px 16px;z-index:50;overflow-y:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .admin-overlay.show{display:flex;}
+  .admin-panel{
+    background:var(--mist);border-radius:16px;max-width:720px;width:100%;padding:26px 24px 32px;
+    box-shadow:0 20px 60px rgba(0,0,0,0.25);
+  }
+  .admin-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .admin-head h2{font-family:'Fraunces',serif;font-size:20px;color:var(--dusk);margin:0;}
+  .close-x{border:none;background:none;font-size:20px;color:var(--ink-soft);cursor:pointer;padding:6px;}
+  .gate input{margin-bottom:10px;}
+  .resp-card{
+    background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:12px;font-size:13px;
+  }
+  .resp-card .rname{font-family:'Fraunces',serif;font-size:16px;color:var(--dusk);margin-bottom:2px;}
+  .resp-card .rmeta{color:var(--ink-soft);font-size:12px;margin-bottom:10px;}
+  .resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;}
+  .resp-grid div span{color:var(--ink-soft);}
+  .admin-toolbar{display:flex;justify-content:space-between;align-items:center;margin:10px 0 18px;flex-wrap:wrap;gap:10px;}
+  .count-tag{font-size:12px;color:var(--ink-soft);}
+
+  @media (max-width:480px){
+    .two-col,.split{grid-template-columns:1fr;}
+    .resp-grid{grid-template-columns:1fr;}
+    .admin-overlay{padding:16px 8px;}
+    .admin-panel{padding:20px 16px 26px;border-radius:12px;}
+    .instructor-card{justify-content:flex-start;}
+    .instructor-card .contact{text-align:left;}
+  }
+  @media (max-width:380px){
+    .breath-circle{width:104px;height:104px;}
+    .btn{padding:12px 18px;font-size:14px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="topbar">
+    <div class="brand">
+      <span class="name">Blissful Breath Yoga</span>
+      <span class="tag">Client Welcome Kit</span>
+    </div>
+    <button class="admin-link" id="openAdmin">Instructor view</button>
+  </div>
+
+  <!-- WELCOME -->
+  <section class="step visible" id="stepWelcome">
+    <div class="breath-wrap">
+      <div class="breath-circle"></div>
+      <div class="breath-caption" id="breathCaption">Breathe in…</div>
+    </div>
+    <div class="welcome">
+      <h1>Welcome to Blissful Breath</h1>
+      <p class="lede">This short kit helps us personalize your one-on-one yoga journey. It takes about 4 minutes — answer what you're comfortable sharing, skip the rest.</p>
+    </div>
+    <div class="instructor-card">
+      <div>
+        <div class="who">Thejaswini</div>
+        <div class="role">MSc in Yoga — Instructor</div>
+      </div>
+      <div class="contact">8277550914</div>
+    </div>
+    <div class="center">
+      <button class="btn btn-primary" id="beginBtn" style="padding:14px 40px;">Begin</button>
+    </div>
+  </section>
+
+  <!-- FORM -->
+  <div id="formWrap" style="display:none;">
+    <div class="progress" id="progressDots"></div>
+    <div class="error-banner" id="errorBanner"></div>
+
+    <!-- STEP: PERSONAL -->
+    <section class="step" data-step="0">
+      <div class="step-head">
+        <div class="eyebrow">Section 1 of 5</div>
+        <div class="step-title">Personal information</div>
+      </div>
+      <div class="field">
+        <label>Full name <span class="req">*</span></label>
+        <input type="text" id="fullName" placeholder="Your full name" autocomplete="name">
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Date of birth <span class="req">*</span></label>
+          <input type="date" id="dob">
+          <div class="hint">Must be at least 10 years old</div>
+        </div>
+        <div class="field">
+          <label>Gender</label>
+          <select id="gender">
+            <option value="">Select…</option>
+            <option>Female</option>
+            <option>Male</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Weight (kg)</label>
+        <input type="number" id="weightValue" placeholder="e.g. 62" min="0" inputmode="numeric">
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Contact number <span class="req">*</span></label>
+          <input type="tel" id="contactNumber" placeholder="10-digit number" autocomplete="tel" inputmode="numeric" maxlength="10">
+          <div class="hint">10 digits, no spaces or symbols</div>
+        </div>
+        <div class="field">
+          <label>Email</label>
+          <input type="email" id="email" placeholder="you@email.com" autocomplete="email" inputmode="email">
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP: LIFESTYLE -->
+    <section class="step" data-step="1">
+      <div class="step-head">
+        <div class="eyebrow">Section 2 of 5</div>
+        <div class="step-title">Lifestyle</div>
+        <div class="step-sub">This helps your instructor pace your practice realistically.</div>
+      </div>
+      <div class="field">
+        <label>Profession <span class="req">*</span></label>
+        <input type="text" id="profession" placeholder="What do you do?">
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Sleep (hours/night) <span class="req">*</span></label>
+          <input type="number" id="sleepHours" min="0" max="24" placeholder="e.g. 7" inputmode="numeric">
+        </div>
+        <div class="field">
+          <label>Water intake (litres/day) <span class="req">*</span></label>
+          <input type="number" id="waterIntake" min="0" step="0.5" placeholder="e.g. 2" inputmode="decimal">
+        </div>
+      </div>
+      <div class="field">
+        <label>Exercise frequency <span class="req">*</span></label>
+        <select id="exerciseFrequency">
+          <option value="">Select…</option>
+          <option>Never</option>
+          <option>Rarely</option>
+          <option>1–2 times / week</option>
+          <option>3–4 times / week</option>
+          <option>Daily</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- STEP: HEALTH -->
+    <section class="step" data-step="2">
+      <div class="step-head">
+        <div class="eyebrow">Section 3 of 5</div>
+        <div class="step-title">Health information</div>
+        <div class="step-sub">This helps your instructor plan a safe practice for you. All fields in this section are required — choose "Not sure" if you're unsure, or "None" if not applicable.</div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Blood pressure <span class="req">*</span></label>
+          <select id="bloodPressure">
+            <option value="">Select…</option>
+            <option>Normal</option>
+            <option>High</option>
+            <option>Low</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Diabetes <span class="req">*</span></label>
+          <select id="diabetes">
+            <option value="">Select…</option>
+            <option>No</option>
+            <option>Pre-diabetic</option>
+            <option>Type 1</option>
+            <option>Type 2</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Thyroid <span class="req">*</span></label>
+          <select id="thyroid">
+            <option value="">Select…</option>
+            <option>No</option>
+            <option>Hypothyroid</option>
+            <option>Hyperthyroid</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Pregnancy (if applicable) <span class="req">*</span></label>
+          <select id="pregnancy">
+            <option value="">Select…</option>
+            <option>Not applicable</option>
+            <option>No</option>
+            <option>Yes — 1st trimester</option>
+            <option>Yes — 2nd trimester</option>
+            <option>Yes — 3rd trimester</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label>Surgery history <span class="req">*</span></label>
+        <textarea id="surgeryHistory" placeholder="e.g. None — or list past surgeries"></textarea>
+      </div>
+      <div class="field">
+        <label>Current medications <span class="req">*</span></label>
+        <textarea id="medications" placeholder="e.g. None — or list current medications"></textarea>
+      </div>
+    </section>
+
+    <!-- STEP: GOALS + EXPERIENCE -->
+    <section class="step" data-step="3">
+      <div class="step-head">
+        <div class="eyebrow">Section 4 of 5</div>
+        <div class="step-title">Yoga goals & experience</div>
+      </div>
+      <div class="field">
+        <label>What brings you to yoga? <span class="req">*</span> <span style="font-weight:400;color:var(--ink-soft);">(select at least one)</span></label>
+        <div class="pill-grid" id="goalsGrid">
+          <label class="pill"><input type="checkbox" value="Stress Management"><span>Stress Management</span></label>
+          <label class="pill"><input type="checkbox" value="Improve Flexibility"><span>Improve Flexibility</span></label>
+          <label class="pill"><input type="checkbox" value="Weight Loss"><span>Weight Loss</span></label>
+          <label class="pill"><input type="checkbox" value="Pain Relief"><span>Pain Relief</span></label>
+          <label class="pill"><input type="checkbox" value="Better Posture"><span>Better Posture</span></label>
+
+          <label class="pill"><input type="checkbox" value="Improve Breathing"><span>Improve Breathing</span></label>
+          <label class="pill"><input type="checkbox" value="Mental Well-being"><span>Mental Well-being</span></label>
+        </div>
+      </div>
+      <div class="field">
+        <label>Experience level <span class="req">*</span></label>
+        <div class="segmented" id="experienceSeg">
+          <label><input type="radio" name="experience" value="Beginner"><span>Beginner</span></label>
+          <label><input type="radio" name="experience" value="Intermediate"><span>Intermediate</span></label>
+          <label><input type="radio" name="experience" value="Advanced"><span>Advanced</span></label>
+        </div>
+      </div>
+    </section>
+
+    <!-- STEP: EMERGENCY -->
+    <section class="step" data-step="4">
+      <div class="step-head">
+        <div class="eyebrow">Section 5 of 5</div>
+        <div class="step-title">Emergency contact</div>
+        <div class="step-sub">Just in case — this stays between you and your instructor.</div>
+      </div>
+      <div class="field">
+        <label>Contact name <span class="req">*</span></label>
+        <input type="text" id="emergencyName" placeholder="Full name">
+      </div>
+      <div class="two-col">
+        <div class="field">
+          <label>Relationship <span class="req">*</span></label>
+          <input type="text" id="emergencyRelationship" placeholder="e.g. Spouse, Parent, Friend">
+        </div>
+        <div class="field">
+          <label>Phone <span class="req">*</span></label>
+          <input type="tel" id="emergencyPhone" placeholder="10-digit number" inputmode="numeric" maxlength="10">
+          <div class="hint">10 digits, no spaces or symbols</div>
+        </div>
+      </div>
+    </section>
+
+    <div class="btn-row">
+      <button class="btn btn-ghost" id="backBtn">Back</button>
+      <button class="btn btn-primary" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <section class="step" id="stepSuccess">
+    <div class="success">
+      <div class="mark">✓</div>
+      <h2>Thank you, your kit is in.</h2>
+      <p>Thejaswini has received your details and will reach out before your first session. See you on the mat.</p>
+      <button class="btn btn-primary" id="anotherBtn">Submit another response</button>
+    </div>
+  </section>
+
+</div>
+
+<!-- ADMIN OVERLAY -->
+<div class="admin-overlay" id="adminOverlay">
+  <div class="admin-panel">
+    <div class="admin-head">
+      <h2>Instructor view</h2>
+      <button class="close-x" id="closeAdmin">✕</button>
+    </div>
+
+    <div id="gateWrap">
+      <p style="font-size:13.5px;color:var(--ink-soft);margin-top:0;">Sign in with your instructor account to view submitted welcome kits.</p>
+      <div class="gate">
+        <input type="email" id="adminEmail" placeholder="Email" autocomplete="username">
+        <input type="password" id="passcodeInput" placeholder="Password" autocomplete="current-password">
+        <button class="btn btn-primary btn-block" id="gateBtn">Sign in</button>
+      </div>
+      <div class="error-banner" id="gateError"></div>
+    </div>
+
+    <div id="responsesWrap" style="display:none;">
+      <div class="admin-toolbar">
+        <span class="count-tag" id="respCount">0 responses</span>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-ghost" id="refreshBtn" style="padding:8px 16px;font-size:12.5px;">Refresh</button>
+          <button class="btn btn-ghost" id="exportBtn" style="padding:8px 16px;font-size:12.5px;">Export CSV</button>
+          <button class="btn btn-ghost" id="signOutBtn" style="padding:8px 16px;font-size:12.5px;">Sign out</button>
+        </div>
+      </div>
+      <div id="respList"></div>
+    </div>
+  </div>
+</div>
+
+<script type="module">
+  // ---------------------------------------------------------------
+  // FIREBASE SETUP — paste your project's config below.
+  // Get this from: Firebase Console → Project settings → General →
+  // "Your apps" → Web app → SDK setup and configuration.
+  // ---------------------------------------------------------------
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, serverTimestamp,
+    getDocs, query, orderBy
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+  import {
+    getAuth, signInWithEmailAndPassword, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDqcKi1P2GhYcDIQHYYlTAz1ovSG3DF4yQ",
+    authDomain: "blissful-yoga-5b17e.firebaseapp.com",
+    projectId: "blissful-yoga-5b17e",
+    storageBucket: "blissful-yoga-5b17e.firebasestorage.app",
+    messagingSenderId: "651582875800",
+    appId: "1:651582875800:web:f0367365ca436e091f48ed",
+    measurementId: "G-FDK77231FF"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+
+  // Optional: also mirror each submission to a Google Sheet via Apps Script.
+  // Leave as-is to skip. (Set up per the earlier instructions if you want this too.)
+  const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzrBvF74FMGVLDqWlYEEJFO-yT7eLgoVRmNHvEt3KD6MbFsAf2VLtwCcNI_BjiCg1xPmA/exec';
+
+  // ---------------------------------------------------------------
+
+  const steps = [0,1,2,3,4];
+  let current = 0;
+  const formWrap = document.getElementById('formWrap');
+  const stepWelcome = document.getElementById('stepWelcome');
+  const stepSuccess = document.getElementById('stepSuccess');
+  const stepEls = Array.from(document.querySelectorAll('.step[data-step]'));
+  const progressDots = document.getElementById('progressDots');
+  const errorBanner = document.getElementById('errorBanner');
+  const nextBtn = document.getElementById('nextBtn');
+  const backBtn = document.getElementById('backBtn');
+
+  // breathing caption sync
+  const captions = ['Breathe in…','Breathe out…'];
+  let capIdx = 0;
+  const captionEl = document.getElementById('breathCaption');
+  setInterval(()=>{ capIdx = (capIdx+1)%2; captionEl.textContent = captions[capIdx]; }, 4000);
+
+  steps.forEach((s,i)=>{
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.dataset.idx = i;
+    progressDots.appendChild(d);
+  });
+
+  function renderDots(){
+    Array.from(progressDots.children).forEach((d,i)=>{
+      d.classList.toggle('active', i===current);
+      d.classList.toggle('done', i<current);
+    });
+  }
+
+  function showStep(i){
+    stepEls.forEach(el=>{
+      el.classList.toggle('visible', parseInt(el.dataset.step,10)===i);
+    });
+    backBtn.style.visibility = i===0 ? 'hidden' : 'visible';
+    nextBtn.textContent = i===steps.length-1 ? 'Submit' : 'Next';
+    errorBanner.classList.remove('show');
+    renderDots();
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+
+  document.getElementById('beginBtn').addEventListener('click', ()=>{
+    stepWelcome.classList.remove('visible');
+    formWrap.style.display = 'block';
+    showStep(0);
+  });
+
+  function calcAge(dobStr){
+    const dob = new Date(dobStr + 'T00:00:00');
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if(m < 0 || (m === 0 && today.getDate() < dob.getDate())) age--;
+    return age;
+  }
+
+  const TEXT_ONLY = /^[A-Za-z\s.'-]+$/;
+  const TEN_DIGITS = /^\d{10}$/;
+
+  function digitsOnlyInput(el){
+    el.addEventListener('input', ()=>{
+      el.value = el.value.replace(/\D/g,'').slice(0,10);
+    });
+  }
+  function textOnlyInput(el){
+    el.addEventListener('input', ()=>{
+      el.value = el.value.replace(/[^A-Za-z\s.'-]/g,'');
+    });
+  }
+  digitsOnlyInput(document.getElementById('contactNumber'));
+  digitsOnlyInput(document.getElementById('emergencyPhone'));
+  textOnlyInput(document.getElementById('emergencyName'));
+  textOnlyInput(document.getElementById('emergencyRelationship'));
+
+  // No future dates in the date picker
+  document.getElementById('dob').max = new Date().toISOString().slice(0,10);
+
+  function showError(msg){
+    errorBanner.textContent = msg;
+    errorBanner.classList.add('show');
+  }
+
+  function validateStep(i){
+    if(i===0){
+      const fullName = document.getElementById('fullName').value.trim();
+      const dob = document.getElementById('dob').value;
+      const contact = document.getElementById('contactNumber').value.trim();
+      const email = document.getElementById('email').value.trim();
+      if(!fullName || !dob || !contact){
+        showError('Please fill in full name, date of birth, and contact number.');
+        return false;
+      }
+      const dobDate = new Date(dob + 'T00:00:00');
+      const today = new Date(); today.setHours(0,0,0,0);
+      if(dobDate > today){
+        showError('Date of birth cannot be in the future.');
+        return false;
+      }
+      if(calcAge(dob) < 10){
+        showError('Sorry, clients must be at least 10 years old.');
+        return false;
+      }
+      if(!TEN_DIGITS.test(contact)){
+        showError('Contact number must be exactly 10 digits.');
+        return false;
+      }
+      if(email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        showError('Please enter a valid email address.');
+        return false;
+      }
+    }
+    if(i===1){
+      const profession = document.getElementById('profession').value.trim();
+      const sleep = document.getElementById('sleepHours').value;
+      const water = document.getElementById('waterIntake').value;
+      const exercise = document.getElementById('exerciseFrequency').value;
+      if(!profession || !sleep || !water || !exercise){
+        showError('Please complete all fields in this section.');
+        return false;
+      }
+    }
+    if(i===2){
+      const bp = document.getElementById('bloodPressure').value;
+      const diabetes = document.getElementById('diabetes').value;
+      const thyroid = document.getElementById('thyroid').value;
+      const surgery = document.getElementById('surgeryHistory').value.trim();
+      const pregnancy = document.getElementById('pregnancy').value;
+      const meds = document.getElementById('medications').value.trim();
+      if(!bp || !diabetes || !thyroid || !surgery || !pregnancy || !meds){
+        showError('Please complete all fields in this section.');
+        return false;
+      }
+    }
+    if(i===3){
+      const goalsChecked = document.querySelectorAll('#goalsGrid input:checked').length;
+      const exp = document.querySelector('input[name=experience]:checked');
+      if(goalsChecked === 0){
+        showError('Please select at least one goal.');
+        return false;
+      }
+      if(!exp){
+        showError('Please select your experience level.');
+        return false;
+      }
+    }
+    if(i===4){
+      const n = document.getElementById('emergencyName').value.trim();
+      const r = document.getElementById('emergencyRelationship').value.trim();
+      const p = document.getElementById('emergencyPhone').value.trim();
+      if(!n || !r || !p){
+        showError('Please complete all emergency contact fields.');
+        return false;
+      }
+      if(!TEXT_ONLY.test(n) || !TEXT_ONLY.test(r)){
+        showError('Emergency contact name and relationship should be text only.');
+        return false;
+      }
+      if(!TEN_DIGITS.test(p)){
+        showError('Emergency contact phone must be exactly 10 digits.');
+        return false;
+      }
+    }
+    return true;
+  }
+
+  nextBtn.addEventListener('click', async ()=>{
+    if(!validateStep(current)) return;
+    if(current === steps.length-1){
+      await submitForm();
+      return;
+    }
+    current++;
+    showStep(current);
+  });
+
+  backBtn.addEventListener('click', ()=>{
+    if(current===0) return;
+    current--;
+    showStep(current);
+  });
+
+  document.querySelectorAll('#goalsGrid .pill input').forEach(cb=>{
+    cb.addEventListener('change', ()=>{
+      cb.closest('.pill').classList.toggle('checked', cb.checked);
+    });
+  });
+
+  function collectData(){
+    const goals = Array.from(document.querySelectorAll('#goalsGrid input:checked')).map(c=>c.value);
+    const experience = (document.querySelector('input[name=experience]:checked')||{}).value || '';
+    return {
+      fullName: document.getElementById('fullName').value.trim(),
+      dob: document.getElementById('dob').value,
+      gender: document.getElementById('gender').value,
+      weightValue: document.getElementById('weightValue').value,
+      weightUnit: 'kg',
+      contactNumber: document.getElementById('contactNumber').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      profession: document.getElementById('profession').value.trim(),
+      sleepHours: document.getElementById('sleepHours').value,
+      waterIntake: document.getElementById('waterIntake').value,
+      exerciseFrequency: document.getElementById('exerciseFrequency').value,
+      bloodPressure: document.getElementById('bloodPressure').value,
+      diabetes: document.getElementById('diabetes').value,
+      thyroid: document.getElementById('thyroid').value,
+      surgeryHistory: document.getElementById('surgeryHistory').value.trim(),
+      pregnancy: document.getElementById('pregnancy').value,
+      medications: document.getElementById('medications').value.trim(),
+      goals: goals,
+      experience: experience,
+      emergencyName: document.getElementById('emergencyName').value.trim(),
+      emergencyRelationship: document.getElementById('emergencyRelationship').value.trim(),
+      emergencyPhone: document.getElementById('emergencyPhone').value.trim()
+    };
+  }
+
+  function sendToSheet(data){
+    if(!SHEET_WEBHOOK_URL || SHEET_WEBHOOK_URL.indexOf('PASTE_YOUR') !== -1) return;
+    try{
+      const params = new URLSearchParams();
+      Object.keys(data).forEach(k=>{
+        const v = Array.isArray(data[k]) ? data[k].join('; ') : (data[k] || '');
+        params.append(k, v);
+      });
+      fetch(SHEET_WEBHOOK_URL, { method:'POST', mode:'no-cors', body: params });
+    }catch(e){ /* best-effort only */ }
+  }
+
+  async function submitForm(){
+    nextBtn.disabled = true;
+    nextBtn.textContent = 'Submitting…';
+    const data = collectData();
+    try{
+      await addDoc(collection(db, 'submissions'), { ...data, createdAt: serverTimestamp() });
+      sendToSheet(data);
+      formWrap.style.display = 'none';
+      stepSuccess.classList.add('visible');
+    }catch(e){
+      console.error(e);
+      showError('Something went wrong saving your response. Please check your connection and try again.');
+      nextBtn.disabled = false;
+      nextBtn.textContent = 'Submit';
+    }
+  }
+
+  document.getElementById('anotherBtn').addEventListener('click', ()=>{
+    document.querySelectorAll('#formWrap input[type=text], #formWrap input[type=date], #formWrap input[type=tel], #formWrap input[type=email], #formWrap input[type=number], #formWrap textarea').forEach(el=>el.value='');
+    document.querySelectorAll('#formWrap select').forEach(el=>el.selectedIndex=0);
+    document.querySelectorAll('#formWrap input[type=checkbox]').forEach(el=>{el.checked=false; el.closest('.pill').classList.remove('checked');});
+    document.querySelectorAll('#formWrap input[type=radio]').forEach(el=>el.checked=false);
+    current = 0;
+    stepSuccess.classList.remove('visible');
+    stepWelcome.classList.add('visible');
+    formWrap.style.display = 'none';
+  });
+
+  // ---------------- Admin panel (Firebase Auth gated) ----------------
+  const adminOverlay = document.getElementById('adminOverlay');
+  document.getElementById('openAdmin').addEventListener('click', ()=>adminOverlay.classList.add('show'));
+  document.getElementById('closeAdmin').addEventListener('click', ()=>adminOverlay.classList.remove('show'));
+
+  document.getElementById('gateBtn').addEventListener('click', async ()=>{
+    const email = document.getElementById('adminEmail').value.trim();
+    const pw = document.getElementById('passcodeInput').value;
+    const gateError = document.getElementById('gateError');
+    gateError.classList.remove('show');
+    try{
+      await signInWithEmailAndPassword(auth, email, pw);
+    }catch(e){
+      gateError.textContent = 'Sign-in failed. Check your email and password.';
+      gateError.classList.add('show');
+    }
+  });
+
+  document.getElementById('signOutBtn').addEventListener('click', async ()=>{
+    await signOut(auth);
+    document.getElementById('responsesWrap').style.display='none';
+    document.getElementById('gateWrap').style.display='block';
+  });
+
+  onAuthStateChanged(auth, user=>{
+    if(user){
+      document.getElementById('gateWrap').style.display='none';
+      document.getElementById('responsesWrap').style.display='block';
+      loadResponses();
+    }
+  });
+
+  let allResponses = [];
+
+  async function loadResponses(){
+    const respList = document.getElementById('respList');
+    respList.innerHTML = '<p style="color:var(--ink-soft);font-size:13px;">Loading responses…</p>';
+    try{
+      const q = query(collection(db, 'submissions'), orderBy('createdAt', 'desc'));
+      const snap = await getDocs(q);
+      const items = [];
+      snap.forEach(docSnap => items.push({ id: docSnap.id, ...docSnap.data() }));
+      allResponses = items;
+      document.getElementById('respCount').textContent = items.length + (items.length===1 ? ' response' : ' responses');
+      if(items.length===0){
+        respList.innerHTML = '<p style="color:var(--ink-soft);font-size:13px;">No submissions yet.</p>';
+        return;
+      }
+      respList.innerHTML = items.map(renderCard).join('');
+    }catch(e){
+      console.error(e);
+      respList.innerHTML = '<p style="color:#8C3A22;font-size:13px;">Could not load responses. Try refreshing.</p>';
+    }
+  }
+
+  function renderCard(d){
+    const date = d.createdAt && d.createdAt.toDate ? d.createdAt.toDate().toLocaleString() : '—';
+    return `<div class="resp-card">
+      <div class="rname">${escapeHtml(d.fullName||'(no name)')}</div>
+      <div class="rmeta">${date} · ${escapeHtml(d.email||'')} · ${escapeHtml(d.contactNumber||'')}</div>
+      <div class="resp-grid">
+        <div><span>DOB:</span> ${escapeHtml(d.dob||'—')}</div>
+        <div><span>Gender:</span> ${escapeHtml(d.gender||'—')}</div>
+        <div><span>Weight:</span> ${escapeHtml(d.weightValue||'—')} ${escapeHtml(d.weightUnit||'')}</div>
+        <div><span>Experience:</span> ${escapeHtml(d.experience||'—')}</div>
+        <div><span>Profession:</span> ${escapeHtml(d.profession||'—')}</div>
+        <div><span>Sleep:</span> ${escapeHtml(d.sleepHours||'—')} hrs</div>
+        <div><span>Water:</span> ${escapeHtml(d.waterIntake||'—')} L/day</div>
+        <div><span>Exercise:</span> ${escapeHtml(d.exerciseFrequency||'—')}</div>
+        <div><span>Blood pressure:</span> ${escapeHtml(d.bloodPressure||'—')}</div>
+        <div><span>Diabetes:</span> ${escapeHtml(d.diabetes||'—')}</div>
+        <div><span>Thyroid:</span> ${escapeHtml(d.thyroid||'—')}</div>
+        <div><span>Pregnancy:</span> ${escapeHtml(d.pregnancy||'—')}</div>
+        <div style="grid-column:1/-1;"><span>Surgery history:</span> ${escapeHtml(d.surgeryHistory||'—')}</div>
+        <div style="grid-column:1/-1;"><span>Medications:</span> ${escapeHtml(d.medications||'—')}</div>
+        <div style="grid-column:1/-1;"><span>Goals:</span> ${escapeHtml((d.goals||[]).join(', ')||'—')}</div>
+        <div style="grid-column:1/-1;"><span>Emergency contact:</span> ${escapeHtml(d.emergencyName||'—')} (${escapeHtml(d.emergencyRelationship||'—')}) · ${escapeHtml(d.emergencyPhone||'—')}</div>
+      </div>
+    </div>`;
+  }
+
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  document.getElementById('refreshBtn').addEventListener('click', loadResponses);
+
+  document.getElementById('exportBtn').addEventListener('click', ()=>{
+    if(allResponses.length===0) return;
+    const cols = ['fullName','dob','gender','weightValue','weightUnit','contactNumber','email','profession','sleepHours','waterIntake','exerciseFrequency','bloodPressure','diabetes','thyroid','surgeryHistory','pregnancy','medications','goals','experience','emergencyName','emergencyRelationship','emergencyPhone'];
+    const rows = [cols.join(',')].concat(allResponses.map(d=>cols.map(c=>{
+      let v = c==='goals' ? (d.goals||[]).join('; ') : (d[c]||'');
+      v = String(v).replace(/"/g,'""');
+      return '"' + v + '"';
+    }).join(',')));
+    const blob = new Blob([rows.join('\n')], {type:'text/csv'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'blissful-breath-responses.csv';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  });
+</script>
+</body>
+</html>
