@@ -3,12 +3,23 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // Instructor accounts allowed to read submissions back.
+    //
+    // Pinned to specific addresses rather than "any signed-in user":
+    // the web API key is public in the page source, so if self-signup is
+    // ever left enabled a stranger could register their own account and
+    // read every client's health data. Add addresses to grant access.
+    function isInstructor() {
+      return request.auth != null
+          && request.auth.token.email in ['tejunithing@gmail.com'];
+    }
+
     // Client welcome-kit submissions.
-    // Anyone can submit the public form; only a signed-in instructor
-    // can read them back. Submissions are immutable once written.
+    // Anyone can submit the public form; only an instructor can read
+    // them back. Submissions are immutable once written.
     match /submissions/{doc} {
       allow create: if true;
-      allow read: if request.auth != null;
+      allow read: if isInstructor();
       allow update, delete: if false;
     }
   }
