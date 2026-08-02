@@ -761,12 +761,29 @@
     };
   }
 
+  // Ask the serverless function to email the instructor. The response is
+  // already saved at this point, so a failure here must never block the
+  // client's success screen — it is logged and swallowed.
+  async function notifyInstructor(data){
+    try{
+      const res = await fetch('/api/notify-submission', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      if(!res.ok) console.error('Notification email failed:', res.status, await res.text());
+    }catch(e){
+      console.error('Notification email failed:', e);
+    }
+  }
+
   async function submitForm(){
     nextBtn.disabled = true;
     nextBtn.textContent = 'Submitting…';
     const data = collectData();
     try{
       await addDoc(collection(db, 'submissions'), { ...data, createdAt: serverTimestamp() });
+      await notifyInstructor(data);
       formWrap.style.display = 'none';
       stepSuccess.classList.add('visible');
       nextBtn.disabled = false;
